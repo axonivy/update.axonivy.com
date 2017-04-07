@@ -24,7 +24,5 @@ app/request/RequestHandlerRegistry.php -text
 app/response/ReleaseResponse.php -text
 config/Config.php -text
 sql/00_init.sql -text
-tmp/test-response.txt -text
-tmp/test-urls.txt -text
 web/.htaccess -text
 web/index.php -text
