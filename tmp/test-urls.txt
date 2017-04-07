@@ -1,0 +1,5 @@
+http://127.0.0.1/pid/designer.ivp?JavaVendor=hey&OperatingSystemAvailableProcessors=10&JavaVersion=5&JavaVirtualMachineName=vmname&JavaVirtualMachineVendor=vmvenodr&JavaVirtualMachineVersion=vmversion
+
+
+
+http://update.axonivy.com/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp?JavaVendor=hey&JavaVersion=5&JavaVirtualMachineName=vmname&JavaVirtualMachineVendor=vmvenodr&JavaVirtualMachineVersion=vmversion&DesignerVersion=5.1.0&MemoryMaxHeap=555&MemoryMaxNonHeap=666&NetworkHostName=nethostname&NetworkIpAddress=155.55.66.45&NetworkHardwareAddress=nethardaddress&OperatingSystemArchitecture=osarch&OperatingSystemVersion=osversion&OperatingSystemName=osname&OperatingSystemAvailableProcessors=11
