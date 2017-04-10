@@ -17,6 +17,10 @@ class AddDesignerLogRequestHandler extends RequestHandler {
 		$this->logRequestHelper = new AddLogRequestHelper();
 	}
 	
+	public function getRequestMethod() {
+		return 'POST';
+	}
+	
 	public function getUrlPath() {
 		return '/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp';		
 	}

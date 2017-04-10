@@ -16,6 +16,10 @@ class LogReaderRequestHandler extends RequestHandler {
 		$this->engineLogRepo = new EngineLogRepository();
 	}
 	
+	public function getRequestMethod() {
+		return 'GET';
+	}
+	
 	public function getUrlPath() {
 		return '/api/log';
 	}
