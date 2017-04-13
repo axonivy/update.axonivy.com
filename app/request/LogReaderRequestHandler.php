@@ -66,7 +66,7 @@ class LogReaderRequestHandler extends RequestHandler {
 				'Id' => $designerLog->getId(),
 				'Timestamp' => $designerLog->getTimestamp(),
 				
-				'DesignerVersion' => $designerLog->getDesignerVersion(),
+				'DesignerVersion' => $designerLog->getDesigner()->getVersion(),
 				
 				'OperatingSystemName' => $designerLog->getOperatingSystem()->getName(),
 				'OperatingSystemVersion' => $designerLog->getOperatingSystem()->getVersion(),

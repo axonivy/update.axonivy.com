@@ -47,7 +47,7 @@ class DesignerLogRepository extends Repository {
 				$record['DesignerVersion']
 			);
 			
-			$log = new DesignerLog(
+			$log = new DesignerLogRecord(
 				$record['Timestamp'],
 				$java,
 				$designer,
