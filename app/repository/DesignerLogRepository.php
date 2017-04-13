@@ -4,6 +4,11 @@ namespace repository;
 use PDO;
 use repository\Repository;
 use model\DesignerLogRecord;
+use model\Java;
+use model\Memory;
+use model\Network;
+use model\OperatingSystem;
+use model\Designer;
 
 class DesignerLogRepository extends Repository {
 	
@@ -12,7 +17,48 @@ class DesignerLogRepository extends Repository {
 		$stmt->bindValue(':idFrom', $idFrom, PDO::PARAM_INT);
 		$stmt->bindValue(':count', $count, PDO::PARAM_INT);
 		$stmt->execute();
-		return $stmt->fetchAll();
+		$records = $stmt->fetchAll();
+		
+		$logs = [];
+		foreach ($records as $record) {
+			$java = new Java(
+				$record['JavaVendor'],
+				$record['JavaVersion'],
+				$record['JavaVirtualMachineName'],
+				$record['JavaVirtualMachineVendor'],
+				$record['JavaVirtualMachineName']
+			);
+			$memory = new Memory(
+				$record['MemoryMaxHeap'],
+				$record['MemoryMaxNonHeap']
+			);
+			$network = new Network(
+				$record['NetworkHardwareAddress'],
+				$record['NetworkIpAddress'],
+				$record['NetworkHostName']
+			);
+			$operatingSystem = new OperatingSystem(
+				$record['OperatingSystemArchitecture'],
+				$record['OperatingSystemName'],
+				$record['OperatingSystemVersion'],
+				$record['OperatingSystemAvailableProcessors']
+			);
+			$designer = new Designer(
+				$record['DesignerVersion']
+			);
+			
+			$log = new DesignerLog(
+				$record['Timestamp'],
+				$java,
+				$designer,
+				$memory,
+				$network,
+				$operatingSystem
+			);
+			$log->setId($record['Id']);
+			$logs[] = $log;			
+		}
+		return $logs;
 	}
 	
 	public function write(DesignerLogRecord $record) {

@@ -11,6 +11,7 @@ use model\SystemDatabase;
 
 class EngineLogRecord {
 	
+	private $id;
 	private $timestamp;
 	private $java;
 	private $licence;
@@ -41,6 +42,12 @@ class EngineLogRecord {
 		$this->systemDatabase = $systemDatabase;
 	}
 	
+	public function getId() {
+		return $this->id;
+	}
+	public function setId($id) {
+		$this->id = $id;
+	}
 	public function getTimestamp() {
 		return $this->timestamp;
 	}

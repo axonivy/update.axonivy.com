@@ -4,6 +4,13 @@ namespace repository;
 use PDO;
 use repository\Repository;
 use model\EngineLogRecord;
+use model\Java;
+use model\Licence;
+use model\Memory;
+use model\Network;
+use model\OperatingSystem;
+use model\Engine;
+use model\SystemDatabase;
 
 class EngineLogRepository extends Repository {
 	
@@ -12,7 +19,72 @@ class EngineLogRepository extends Repository {
 		$stmt->bindValue(':idFrom', $idFrom, PDO::PARAM_INT);
 		$stmt->bindValue(':count', $count, PDO::PARAM_INT);
 		$stmt->execute();
-		return $stmt->fetchAll();
+		$records = $stmt->fetchAll();
+		
+		$logs = [];
+		foreach ($records as $record) {
+			$java = new Java(
+				$record['JavaVendor'],
+				$record['JavaVersion'],
+				$record['JavaVirtualMachineName'],
+				$record['JavaVirtualMachineVendor'],
+				$record['JavaVirtualMachineName']
+			);
+			$licence = new Licence(
+				$record['LicenceNumber'],
+				$record['LicenceeIndividual'],
+				$record['LicenceeOrganisation']
+			);
+			$memory = new Memory(
+				$record['MemoryMaxHeap'],
+				$record['MemoryMaxNonHeap']
+			);
+			$network = new Network(
+				$record['NetworkHardwareAddress'],
+				$record['NetworkIpAddress'],
+				$record['NetworkHostName']
+			);
+			$operatingSystem = new OperatingSystem(
+				$record['OperatingSystemArchitecture'],
+				$record['OperatingSystemName'],
+				$record['OperatingSystemVersion'],
+				$record['OperatingSystemAvailableProcessors']
+			);
+			$engine = new Engine(
+				$record['EngineApplications'],
+				$record['EngineClusterNodesConfigured'],
+				$record['EngineClusterNodesRunning'],
+				$record['EngineLicensedUsers'],				
+				$record['EngineProcessModelVersions'],
+				$record['EngineProcessModelVersionsDeleted'],
+				$record['EngineProcessModels'],
+				$record['EngineRunningCases'],				
+				$record['EngineRunningTasks'],
+				$record['EngineUpTime'],
+				$record['EngineUsers'],
+				$record['EngineVersion']
+			);
+			$systemDatabase = new SystemDatabase(
+				$record['SystemDatabaseId'],
+				$record['SystemDatabaseDriver'],
+				$record['SystemDatabaseProductName'],
+				$record['SystemDatabaseProductVersion']
+			);
+			
+			$log = new EngineLogRecord(
+				$record['Timestamp'],
+				$java,
+				$licence,
+				$memory,
+				$network,
+				$operatingSystem,
+				$engine,
+				$systemDatabase
+			);
+			$log->setId($record['Id']);
+			$logs[] = $log;			
+		}
+		return $logs;
 	}
 	
 	public function write(EngineLogRecord $record) {

@@ -11,4 +11,7 @@ class Config {
 	
 	const RELEASE_DIRECTORY = 'C:\tmp\releases';
 	
+	const API_USERNAME = 'ivyTeam';
+	const API_PASSWORD = '???';
+
 }
