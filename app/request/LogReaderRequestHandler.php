@@ -27,7 +27,7 @@ class LogReaderRequestHandler extends RequestHandler {
 	
 	public function execute() {
 		$this->checkAuthentication();
-		
+		header('Content-Type: application/json');
 		$type = $_GET['type'];
 		$idFrom = $_GET['idFrom'];
 		$count = $_GET['count'];
