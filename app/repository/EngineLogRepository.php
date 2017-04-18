@@ -28,7 +28,7 @@ class EngineLogRepository extends Repository {
 				$record['JavaVersion'],
 				$record['JavaVirtualMachineName'],
 				$record['JavaVirtualMachineVendor'],
-				$record['JavaVirtualMachineName']
+				$record['JavaVirtualMachineVersion']
 			);
 			$licence = new Licence(
 				$record['LicenceNumber'],

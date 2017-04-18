@@ -76,8 +76,8 @@ class LogReaderRequestHandler extends RequestHandler {
 				'MemoryMaxHeap' => $designerLog->getMemory()->getMaxHeapMemory(),
 				'MemoryMaxNonHeap' => $designerLog->getMemory()->getMaxNonHeapMemory(),
 								
-				'NetworkHostName' => $designerLog->getNetwork()->getIpAddress(),
-				'NetworkIpAddress' => $designerLog->getNetwork()->getNetworkHostname(),
+				'NetworkHostName' => $designerLog->getNetwork()->getNetworkHostname(),
+				'NetworkIpAddress' => $designerLog->getNetwork()->getIpAddress(),
 				'NetworkHardwareAddress' => $designerLog->getNetwork()->getHardwareAddress(),
 				
 				'JavaVendor' => $designerLog->getJava()->getVendor(),
@@ -127,8 +127,8 @@ class LogReaderRequestHandler extends RequestHandler {
 				'LicenceeIndividual' => $engineLog->getLicence()->getIndividual(),
 				'LicenceeOrganisation' => $engineLog->getLicence()->getOrganisation(),
 				
-				'NetworkHostName' => $engineLog->getNetwork()->getIpAddress(),
-				'NetworkIpAddress' => $engineLog->getNetwork()->getNetworkHostname(),
+				'NetworkHostName' => $engineLog->getNetwork()->getNetworkHostname(),
+				'NetworkIpAddress' => $engineLog->getNetwork()->getIpAddress(),
 				'NetworkHardwareAddress' => $engineLog->getNetwork()->getHardwareAddress(),
 				
 				'JavaVendor' => $engineLog->getJava()->getVendor(),

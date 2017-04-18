@@ -26,7 +26,7 @@ class DesignerLogRepository extends Repository {
 				$record['JavaVersion'],
 				$record['JavaVirtualMachineName'],
 				$record['JavaVirtualMachineVendor'],
-				$record['JavaVirtualMachineName']
+				$record['JavaVirtualMachineVersion']
 			);
 			$memory = new Memory(
 				$record['MemoryMaxHeap'],
