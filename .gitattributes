@@ -5,7 +5,6 @@
 .settings/org.eclipse.wst.common.project.facet.core.xml -text
 .settings/org.eclipse.wst.validation.prefs -text
 /README.md -text
-/Test.txt -text
 /composer.json -text
 /composer.lock -text
 /composer.phar -text
