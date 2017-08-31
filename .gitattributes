@@ -12,6 +12,7 @@
 sql/00_init.sql -text
 src/app/Application.php -text
 src/app/controller/CallingHomeController.php -text
+src/app/controller/HomePageController.php -text
 src/app/controller/LogController.php -text
 src/app/model/Designer.php -text
 src/app/model/DesignerLogRecord.php -text

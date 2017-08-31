@@ -10,6 +10,7 @@ use axonivy\update\controller\LogController;
 use axonivy\update\repository\DesignerLogRepository;
 use axonivy\update\repository\EngineLogRepository;
 use axonivy\update\repository\ReleaseInfoRepository;
+use axonivy\update\controller\HomePageController;
 
 class Application
 {
@@ -31,6 +32,7 @@ class Application
         $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp', CallingHomeController::class . ':designer');
         $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp', CallingHomeController::class . ':engine');
         $app->get('/api/log', LogController::class . ':read');
+        $app->get('/', HomePageController::class);
         
         return $app->run();
     }
