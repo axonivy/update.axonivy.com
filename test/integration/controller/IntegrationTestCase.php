@@ -19,7 +19,7 @@ class IntegrationTestCase extends TestCase {
     
     private function setUpTestDatabase()
     {
-        $host = '127.0.0.1';
+        $host = 'db';
         $user = 'root';
         $port = 3306;
         $password = '1234';

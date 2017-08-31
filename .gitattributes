@@ -7,7 +7,9 @@
 /README.md -text
 /composer.json -text
 /composer.lock -text
-/composer.phar -text
+/docker-compose.yml -text
+docker/apache/000-default.conf -text
+docker/apache/Dockerfile -text
 /phpunit.xml.dist -text
 sql/00_init.sql -text
 src/app/Application.php -text

@@ -3,9 +3,9 @@ return [
     'settings' => [
         'displayErrorDetails' => true,
         'db' => [
-            'host' => '127.0.0.1',
+            'host' => 'db',
             'dbName' => 'update_stats',
-            'user' => 'root',
+            'user' => 'update',
             'password' => '1234',
             'charset' => 'utf8'
         ],
@@ -13,6 +13,6 @@ return [
             'username' => 'ivyTeam',
             'password' => '???'
         ],
-        'releaseDirectory' => 'C:\tmp\releases'
+        'releaseDirectory' => '/var/www/html/test/testdata/releaseDirectory/testcase1'
     ]
 ];

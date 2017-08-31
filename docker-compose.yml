@@ -1,0 +1,22 @@
+version: '2'
+services:
+    web:
+        container_name: update-axonivy-com-web
+        build: ./docker/apache
+        volumes:
+            - ./:/var/www/html
+            - ./docker/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+        ports:
+            - 80:80
+    db:
+        container_name: update-axonivy-com-db
+        image: mysql:5.7.19
+        environment:
+            MYSQL_ROOT_PASSWORD: 1234
+            MYSQL_DATABASE: update_stats
+            MYSQL_USER: update
+            MYSQL_PASSWORD: 1234
+        volumes:
+            - ./sql/00_init.sql:/docker-entrypoint-initdb.d/00_init.sql
+        ports:
+            - 3306:3306
