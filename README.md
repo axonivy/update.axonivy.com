@@ -9,24 +9,20 @@ Execute the following command in the root directory:
 This will build a PHP container with Apache2 and the php dependency manager Composer.
 You will also get a MySQL container with and empty database.
 
-Connect to the web container to install all dependencies of this php project:
+Install composer dependencies
 
-	docker exec -i -t update-axonivy-com-web /bin/bash
-
-And execute the following command in `/var/www/html`
-
-	composer install
+	docker-compose exec web composer install
 
 ## Test
 
-To execute the connect to the web container and execute the following command:
+To execute the test execute the following command:
 
-	./vendor/bin/phpunit
+	docker-compose exec web ./vendor/bin/phpunit
 
 You also can run specific test suites:
 
-	./vendor/bin/phpunit --testsuite unit
-	./vendor/bin/phpunit --testsuite integration
+	docker-compose exec web ./vendor/bin/phpunit --testsuite unit
+	docker-compose exec web ./vendor/bin/phpunit --testsuite integration
 
 ## Deployment
 
