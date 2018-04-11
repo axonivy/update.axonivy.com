@@ -2,6 +2,11 @@ FROM php:7.1.8-apache
 
 RUN a2enmod rewrite
 
+# used for composer
+RUN apt-get update && \
+    apt-get install -y zip unzip
+
+# used for composer
 RUN apt-get update && \
     apt-get install -y git 
 
