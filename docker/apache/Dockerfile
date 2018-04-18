@@ -17,3 +17,5 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php --version=1.4.1 --install-dir=/var && \
     php -r "unlink('composer-setup.php');" && \
     mv /var/composer.phar /usr/local/bin/composer
+
+RUN addgroup --gid 1000 build && adduser --uid 1000 --gid 1000 --disabled-password --gecos "" build

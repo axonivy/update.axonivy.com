@@ -14,8 +14,8 @@ pipeline {
     stage('distribution') {
       steps {
       	sh 'composer install --no-dev'
-        sh 'tar -cf ivy-website-update-.tar src vendor'
-        archiveArtifacts 'ivy-website-update-.tar'
+        sh 'tar -cf ivy-website-update.tar src vendor'
+        archiveArtifacts 'ivy-website-update.tar'
       }
     }
     
