@@ -17,7 +17,7 @@ class Application
 
     public function run()
     {
-        $config = __DIR__ . '/../../../config/update.axonivy.com.php';
+        $config = __DIR__ . '/../../../../config/update.axonivy.com.php';
         if (!file_exists($config))
         {
             $config = '../config/config.php'; 
