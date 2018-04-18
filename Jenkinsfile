@@ -10,6 +10,9 @@ pipeline {
   options {
     buildDiscarder(logRotator(artifactNumToKeepStr: '10'))
   }
+  parameters {
+    booleanParam(defaultValue: false, description: 'Deploy to production?', name: 'deployToProduction')
+  }
   stages {
     stage('distribution') {
       steps {
@@ -37,6 +40,9 @@ pipeline {
         branch 'master'
         expression {
           currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+        }
+        expression {
+          params.deployToProduction         
         }
       }
       steps {
