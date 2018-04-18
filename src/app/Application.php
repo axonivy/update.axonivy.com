@@ -17,7 +17,12 @@ class Application
 
     public function run()
     {
-        $configuration = require('../config/config.php');
+        $config = __DIR__ . '/../../config-update.axonivy.com.php';
+        if (!file_exists($config))
+        {
+            $config = '../config/config.php'; 
+        }
+        $configuration = require($config);
         return $this->runWithConfiguration($configuration);
     }
 
