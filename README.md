@@ -27,6 +27,6 @@ You also can run specific test suites:
 ## Deployment
 
 * Create database and execute the sql scripts in the directory **sql** in order.
-* Deploy the directory **src**, **vendor** to your server (attention when you override the config folder).
-* Modify the configuration in the folder **config**.
-* Point the webroot of your webserver to the **src/web** folder.
+* The php application will be deployed automatically via Jenkins.
+* You must provide a config file `../../config/update.axonivy.com.php` similar to `src/config/config.php`
+ 
