@@ -48,16 +48,7 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $_POST['OperatingSystemAvailableProcessors'] = '92';
         
         $response = (new Application())->runWithConfiguration($configuration);
-        $plainText = $response->getBody();
-        $plainTextArr = explode("\n", $plainText);
-        
-        $this->assertEquals('', $plainTextArr[0]);
-        $this->assertEquals('', $plainTextArr[1]);
-        
-        $this->assertEquals('LatestRelease: 6.5.11.53277', $plainTextArr[2]);
-        $this->assertEquals('LatestReleaseUrl: http://developer.axonivy.com/download/', $plainTextArr[3]);
-        $this->assertEquals('LatestServiceReleaseForCurrentRelease: 5.1.11.53277', $plainTextArr[4]);
-        $this->assertEquals('LatestServiceReleaseForCurrentReleaseUrl: http://developer.axonivy.com/download/', $plainTextArr[5]);
+        $this->assertResponse($response);
         
         $pdo = Application::createContainer($configuration)->db;
         $logRep = new DesignerLogRepository($pdo);
@@ -146,16 +137,7 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $_POST['SystemDatabaseProductVersion'] = '66666';
         
         $response = (new Application())->runWithConfiguration($configuration);
-        $plainText = $response->getBody();
-        $plainTextArr = explode("\n", $plainText);
-        
-        $this->assertEquals('', $plainTextArr[0]);
-        $this->assertEquals('', $plainTextArr[1]);
-        
-        $this->assertEquals('LatestRelease: 6.5.11.53277', $plainTextArr[2]);
-        $this->assertEquals('LatestReleaseUrl: http://developer.axonivy.com/download/', $plainTextArr[3]);
-        $this->assertEquals('LatestServiceReleaseForCurrentRelease: 6.5.11.53277', $plainTextArr[4]);
-        $this->assertEquals('LatestServiceReleaseForCurrentReleaseUrl: http://developer.axonivy.com/download/', $plainTextArr[5]);
+        $this->assertResponse($response);
         
         $pdo = Application::createContainer($configuration)->db;
         $logRep = new EngineLogRepository($pdo);
@@ -203,4 +185,33 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $this->assertEquals('66666', $log->getSystemDatabase()->getProductVersion());
     }
     
+    private function assertResponse($response)
+    {
+        $plainText = $response->getBody();
+        $plainTextArr = explode("\n", $plainText);
+        
+        $this->assertEquals('', $plainTextArr[0]);
+        $this->assertEquals('', $plainTextArr[1]);
+        
+        $parts = explode(' ', $plainTextArr[2]);
+        $this->assertEquals('LatestRelease:', $parts[0]);
+        $this->assertVersionNumber($parts[1]);
+        
+        $this->assertEquals('LatestReleaseUrl: https://developer.axonivy.com/download/', $plainTextArr[3]);
+        
+        $parts = explode(' ', $plainTextArr[4]);
+        $this->assertEquals('LatestServiceReleaseForCurrentRelease:', $parts[0]);
+        $this->assertVersionNumber($parts[1]);
+        
+        $this->assertEquals('LatestServiceReleaseForCurrentReleaseUrl: https://developer.axonivy.com/download/', $plainTextArr[5]);
+    }
+    
+    private function assertVersionNumber($version)
+    {
+        $this->assertGreaterThanOrEqual(5, $version);
+        $parts = explode('.', $version);
+        $this->assertTrue(is_numeric($parts[0]));
+        $this->assertTrue(is_numeric($parts[1]));
+        $this->assertTrue(is_numeric($parts[2]));
+    }
 }

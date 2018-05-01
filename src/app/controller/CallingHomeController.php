@@ -75,9 +75,9 @@ class CallingHomeController
         $latestServiceReleaseVersion = '';
         
         try {
-            $response = $this->releaseInfoRepo->getCurrentReleaseInfo($currentRelease);
-            $latestReleaseVersion = $response->latestReleaseVersion;
-            $latestServiceReleaseVersion = $response->latestServiceReleaseVersion;
+            $info = $this->releaseInfoRepo->getCurrentReleaseInfo($currentRelease);
+            $latestReleaseVersion = $info->latestReleaseVersion;
+            $latestServiceReleaseVersion = $info->latestServiceReleaseVersion;
         } catch (\Exception $ex) {
             $latestReleaseVersion = '0.0.0';
             $latestServiceReleaseVersion = '0.0.0';
