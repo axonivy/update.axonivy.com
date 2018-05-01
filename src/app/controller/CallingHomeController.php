@@ -71,34 +71,30 @@ class CallingHomeController
     
     private function render(Response $response, $currentRelease)
     {
-        $latestRelease = $this->releaseInfoRepo->getLatestRelease();
+        $latestReleaseVersion = '';
+        $latestServiceReleaseVersion = '';
         
-        $latestReleaseVersion = '0.0.0';
-        $latestReleaseUrl = 'http://developer.axonivy.com';
-        if ($latestRelease != null) {
-            $latestReleaseVersion = $latestRelease->getVersion();
-            $latestReleaseUrl = $latestRelease->getDownloadUrl();
+        try {
+            $response = $this->releaseInfoRepo->getCurrentReleaseInfo($currentRelease);
+            $latestReleaseVersion = $response->latestReleaseVersion;
+            $latestServiceReleaseVersion = $response->latestServiceReleaseVersion;
+        } catch (\Exception $ex) {
+            $latestReleaseVersion = '0.0.0';
+            $latestServiceReleaseVersion = '0.0.0';
         }
-        
-        $latestServiceRelease = $this->releaseInfoRepo->getLatestServiceRelease($currentRelease);
-        
-        $latestServiceReleaseVersion = '0.0.0';
-        $latestServiceReleaseUrl = 'http://developer.axonivy.com';
-        if ($latestServiceRelease != null) {
-            $latestServiceReleaseVersion = $latestServiceRelease->getVersion();
-            $latestServiceReleaseUrl = $latestServiceRelease->getDownloadUrl();
-        }
+
+        $downloadUrl = 'https://developer.axonivy.com/download/';
         
         $body = $response->getBody();
         $body->write("\n");
         $body->write("\n");
         $body->write('LatestRelease: ' . $latestReleaseVersion);
         $body->write("\n");
-        $body->write('LatestReleaseUrl: ' . $latestReleaseUrl);
+        $body->write('LatestReleaseUrl: ' . $downloadUrl);
         $body->write("\n");
         $body->write('LatestServiceReleaseForCurrentRelease: ' . $latestServiceReleaseVersion);
         $body->write("\n");
-        $body->write('LatestServiceReleaseForCurrentReleaseUrl: ' . $latestServiceReleaseUrl);
+        $body->write('LatestServiceReleaseForCurrentReleaseUrl: ' . $downloadUrl);
         return $response->withAddedHeader('Expires', 0);
     }
     
