@@ -13,6 +13,6 @@ return [
             'username' => 'ivyTeam',
             'password' => '???'
         ],
-        'releaseDirectory' => '/var/www/html/test/testdata/releaseDirectory/testcase1'
+        'developerAPI' => 'http://prototype.axonivya.myhostpoint.ch/api'
     ]
 ];

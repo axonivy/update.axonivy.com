@@ -78,7 +78,7 @@ class Application
         $container[CallingHomeController::class] = function ($c) {
             $designerLogRepo = new DesignerLogRepository($c->db);
             $engineLogRepo = new EngineLogRepository($c->db);
-            $releaseInfoRepo = new ReleaseInfoRepository($c['settings']['releaseDirectory']);
+            $releaseInfoRepo = new ReleaseInfoRepository($c['settings']['developerAPI']);
             return new CallingHomeController($designerLogRepo, $engineLogRepo, $releaseInfoRepo);
         };
         $container[LogController::class] = function ($c) {

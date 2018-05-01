@@ -18,7 +18,7 @@ final class LogControllerTest extends IntegrationTestCase
                     'username' => 'ivyTeam',
                     'password' => '???'
                 ],
-                'releaseDirectory' => ''
+                'developerAPI' => ''
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'GET',
@@ -81,7 +81,7 @@ final class LogControllerTest extends IntegrationTestCase
                     'username' => 'ivyTeam',
                     'password' => '???'
                 ],
-                'releaseDirectory' => ''
+                'developerAPI' => ''
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'GET',
@@ -148,7 +148,7 @@ final class LogControllerTest extends IntegrationTestCase
                     'username' => 'ivyTeam',
                     'password' => '???'
                 ],
-                'releaseDirectory' => ''
+                'developerAPI' => ''
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'GET',
@@ -180,7 +180,7 @@ final class LogControllerTest extends IntegrationTestCase
                     'username' => 'ivyTeam',
                     'password' => '???'
                 ],
-                'releaseDirectory' => ''
+                'developerAPI' => ''
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'GET',

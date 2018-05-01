@@ -17,7 +17,7 @@ final class CallingHomeControllerTest extends IntegrationTestCase
                     'username' => 'ivyTeam',
                     'password' => '???'
                 ],
-                'releaseDirectory' => './test/testdata/releaseDirectory/testcase2'
+                'developerAPI' => 'http://prototype.axonivya.myhostpoint.ch/api'
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'POST',
@@ -95,7 +95,7 @@ final class CallingHomeControllerTest extends IntegrationTestCase
                     'username' => 'ivyTeam',
                     'password' => '???'
                 ],
-                'releaseDirectory' => './test/testdata/releaseDirectory/testcase2'
+                'developerAPI' => 'http://prototype.axonivya.myhostpoint.ch/api'
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'POST',
