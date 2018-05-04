@@ -13,6 +13,6 @@ return [
             'username' => 'ivyTeam',
             'password' => '???'
         ],
-        'developerAPI' => 'http://prototype.axonivya.myhostpoint.ch/api'
+        'developerAPI' => 'https://developer.axonivy.com/api'
     ]
 ];
