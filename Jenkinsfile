@@ -1,61 +1,70 @@
 pipeline {
-  agent {
-    dockerfile {
-      dir 'docker/apache'    
-    }
-  }
+  agent any
+
   triggers {
     cron '@midnight'
   }
+
   options {
     buildDiscarder(logRotator(artifactNumToKeepStr: '10'))
+    skipStagesAfterUnstable()
   }
+
+  environment {
+    DIST_FILE = "ivy-website-update.tar"
+  }
+
   stages {
-    stage('distribution') {
+    stage('build') {
       steps {
-      	sh 'composer install --no-dev'
-        sh 'tar -cf ivy-website-update.tar src vendor'
-        archiveArtifacts 'ivy-website-update.tar'
-      }
-    }
-    
-    stage('test') {
-      steps {
-      	sh 'composer install'
-		// How to run also integration test, i need a mysql container for that ...
-        sh './vendor/bin/phpunit --testsuite unit --log-junit phpunit-junit.xml || exit 0'
-      }
-      post {
-        always {
-          junit 'phpunit-junit.xml'
+        script {
+          docker.build('mysql', '-f docker/mysql/Dockerfile docker/mysql').withRun() { mysqlContainer ->
+            docker.build('apache', '-f docker/apache/Dockerfile docker/apache').inside("--link ${mysqlContainer.id}:db") {
+              sh 'composer install --no-dev --no-progress'
+              sh "tar -cf ${env.DIST_FILE} src vendor"
+              archiveArtifacts env.DIST_FILE
+              stash name: 'website-tar', includes: env.DIST_FILE
+      
+              sh 'composer install --no-progress'
+              sh './vendor/bin/phpunit --log-junit phpunit-junit.xml || exit 0'
+              junit 'phpunit-junit.xml'
+            }
+          }
         }
       }
     }
-    
+
     stage('deploy') {
       when {
         branch 'master'
-        expression {
-          currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+      }
+      agent {
+        docker {
+          image 'axonivy/build-container:ssh-client-1.0'
         }
       }
       steps {
         sshagent(['zugprojenkins-ssh']) {
           script {
-          	def targetFile = "ivy-website-update-" + new Date().format("yyyy-MM-dd_HH-mm-ss-SSS");
-            def targetFilename =  targetFile + ".tar"
-            
-            // transfer and untar
-            sh "scp -o StrictHostKeyChecking=no ivy-website-update.tar axonivya@217.26.51.247:/home/axonivya/deployment/$targetFilename"
-            sh "ssh -o StrictHostKeyChecking=no axonivya@217.26.51.247 mkdir /home/axonivya/deployment/$targetFile"
-            sh "ssh -o StrictHostKeyChecking=no axonivya@217.26.51.247 tar -xf /home/axonivya/deployment/$targetFilename -C /home/axonivya/deployment/$targetFile"
-            sh "ssh -o StrictHostKeyChecking=no axonivya@217.26.51.247 rm -f /home/axonivya/deployment/$targetFilename"
-            
-            // create symlinks
-            sh "ssh -o StrictHostKeyChecking=no axonivya@217.26.51.247 ln -fns /home/axonivya/deployment/$targetFile/src/web /home/axonivya/www/update.axonivy.com/linktoweb"
+            unstash 'website-tar'
+                
+            def targetFolder = "/home/axonivya/deployment/ivy-website-update-" + new Date().format("yyyy-MM-dd_HH-mm-ss-SSS");
+            def targetFile =  targetFolder + ".tar"
+            def host = 'axonivya@217.26.51.247'
+
+            // copy
+            sh "scp ivy-website-update.tar  $host:$targetFile"
+
+            // untar
+            sh "ssh $host mkdir $targetFolder"
+            sh "ssh $host tar -xf $targetFile -C $targetFolder"
+            sh "ssh $host rm -f $targetFile"
+
+            // symlink
+            sh "ssh $host ln -fns $targetFolder/src/web /home/axonivya/www/update.axonivy.com/linktoweb"
           }
         }
       }
-    }    
+    }
   }
 }
