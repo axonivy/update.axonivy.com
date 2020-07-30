@@ -13,16 +13,11 @@ final class CallingHomeControllerTest extends IntegrationTestCase
             'settings' => [
                 'displayErrorDetails' => true,
                 'db' => $this->dbConfig,
-                'api' => [
-                    'username' => 'ivyTeam',
-                    'password' => '???'
-                ],
                 'developerAPI' => 'https://developer.axonivy.com/api'
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'POST',
-                'REQUEST_URI' => '/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp',
-                'HTTP_AUTHORIZATION' => 'Basic aXZ5VGVhbTo/Pz8=',
+                'REQUEST_URI' => '/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp',                
                 'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
             ])
         ];
@@ -81,17 +76,12 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $configuration = [
             'settings' => [
                 'displayErrorDetails' => true,
-                'db' => $this->dbConfig,
-                'api' => [
-                    'username' => 'ivyTeam',
-                    'password' => '???'
-                ],
+                'db' => $this->dbConfig,                
                 'developerAPI' => 'https://developer.axonivy.com/api'
             ],
             'environment' => \Slim\Http\Environment::mock([
                 'REQUEST_METHOD' => 'POST',
                 'REQUEST_URI' => '/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp',
-                'HTTP_AUTHORIZATION' => 'Basic aXZ5VGVhbTo/Pz8=',
                 'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
             ])
         ];
