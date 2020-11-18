@@ -18,16 +18,18 @@ pipeline {
     stage('build') {
       steps {
         script {
-          docker.build('mysql', '-f docker/mysql/Dockerfile docker/mysql').withRun() { mysqlContainer ->
-            docker.build('apache', '-f docker/apache/Dockerfile docker/apache').inside("--link ${mysqlContainer.id}:db") {
-              sh 'composer install --no-dev --no-progress'
-              sh "tar -cf ${env.DIST_FILE} src vendor"
-              archiveArtifacts env.DIST_FILE
-              stash name: 'website-tar', includes: env.DIST_FILE
+          docker.withRegistry('', 'docker.io') {
+            docker.build('mysql', '-f docker/mysql/Dockerfile docker/mysql').withRun() { mysqlContainer ->
+              docker.build('apache', '-f docker/apache/Dockerfile docker/apache').inside("--link ${mysqlContainer.id}:db") {
+                sh 'composer install --no-dev --no-progress'
+                sh "tar -cf ${env.DIST_FILE} src vendor"
+                archiveArtifacts env.DIST_FILE
+                stash name: 'website-tar', includes: env.DIST_FILE
       
-              sh 'composer install --no-progress'
-              sh './vendor/bin/phpunit --log-junit phpunit-junit.xml || exit 0'
-              junit 'phpunit-junit.xml'
+                sh 'composer install --no-progress'
+                sh './vendor/bin/phpunit --log-junit phpunit-junit.xml || exit 0'
+                junit 'phpunit-junit.xml'
+              }
             }
           }
         }
