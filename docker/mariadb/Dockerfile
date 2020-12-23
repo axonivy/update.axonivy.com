@@ -1,4 +1,4 @@
-FROM mysql:5.7.19
+FROM mariadb:10
 
 ADD 00_init.sql /docker-entrypoint-initdb.d/
 

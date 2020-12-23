@@ -4,10 +4,10 @@
 
 Execute the following command in the root directory:
 
-	docker-compose up
+	docker-compose up -d
 
 This will build a PHP container with Apache2 and the php dependency manager Composer.
-You will also get a MySQL container with and empty database.
+You will also get a MariaDb container with and empty database.
 
 Install composer dependencies
 

@@ -6,7 +6,7 @@ final class OperatingSystemTest extends TestCase
 {
     private $testee;
     
-    public function setUp()
+    public function setUp(): void
     {
         $this->testee = new OperatingSystem('arch', 'linuxfriz', '45', 10);
     }
