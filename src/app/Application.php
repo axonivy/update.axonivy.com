@@ -3,16 +3,16 @@ namespace axonivy\update;
 
 use PDO;
 use Slim\App;
-use Slim\Container;
+use DI\Container;
 use axonivy\update\controller\CallingHomeController;
 use axonivy\update\repository\DesignerLogRepository;
 use axonivy\update\repository\EngineLogRepository;
 use axonivy\update\repository\ReleaseInfoRepository;
 use axonivy\update\controller\HomePageController;
+use Slim\Factory\AppFactory;
 
 class Application
 {
-
     public function run()
     {
         $config = __DIR__ . '/../../../../config/update.axonivy.com.php';
@@ -20,29 +20,27 @@ class Application
         {
             $config = '../config/config.php'; 
         }
-        $configuration = require($config);
-        return $this->runWithConfiguration($configuration);
-    }
-
-    public function runWithConfiguration($configuration)
-    {
-        $container = self::createContainer($configuration);
-        
-        $app = new App($container);        
-
-        $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp', CallingHomeController::class . ':designer');
-        $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp', CallingHomeController::class . ':engine');        
-        $app->get('/', HomePageController::class);
-        
+        $app = $this->createApp(require($config));        
         return $app->run();
     }
 
-    public static function createContainer($configuration): Container
+    public function createApp($config): App
     {
-        $container = new Container($configuration);
+        $container = self::createContainer($config);
+        $app = AppFactory::createFromContainer($container);
+        
+        $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp', CallingHomeController::class . ':designer');
+        $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp', CallingHomeController::class . ':engine');
+        $app->get('/', HomePageController::class);
+        
+        return $app;
+    }
 
-        $container['db'] = function ($c) {
-            $db = $c['settings']['db'];
+    private static function createContainer($config): Container
+    {
+        $container = new Container();
+        $container->set('db', function (Container $container) use ($config) {
+            $db = $config['settings']['db'];
             
             $host = $db['host'];
             $dbName = $db['dbName'];
@@ -57,14 +55,15 @@ class Application
                 PDO::ATTR_EMULATE_PREPARES => false
             ];
             return new PDO($dsn, $user, $pass, $opt);
-        };
+        });
 
-        $container[CallingHomeController::class] = function ($c) {
-            $designerLogRepo = new DesignerLogRepository($c->db);
-            $engineLogRepo = new EngineLogRepository($c->db);
-            $releaseInfoRepo = new ReleaseInfoRepository($c['settings']['developerAPI']);
+        $container->set(CallingHomeController::class, function (Container $container) use ($config) {
+            $db = $container->get('db');
+            $designerLogRepo = new DesignerLogRepository($db);
+            $engineLogRepo = new EngineLogRepository($db);
+            $releaseInfoRepo = new ReleaseInfoRepository($config['settings']['developerAPI']);
             return new CallingHomeController($designerLogRepo, $engineLogRepo, $releaseInfoRepo);
-        };
+        });
 
         return $container;
     }
