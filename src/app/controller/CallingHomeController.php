@@ -23,11 +23,11 @@ use axonivy\update\model\HttpRequest;
 class CallingHomeController
 {
 
-    private $designerLogRepo;
+    private DesignerLogRepository $designerLogRepo;
 
-    private $engineLogRepo;
+    private EngineLogRepository $engineLogRepo;
     
-    private $releaseInfoRepo;
+    private ReleaseInfoRepository $releaseInfoRepo;
 
     private $request;
     
@@ -40,7 +40,7 @@ class CallingHomeController
 
     public function designer(Request $request, Response $response)
     {
-        $this->request = $request;
+        $this->request = $request->withParsedBody($_POST);
         $record = $this->createDesignerLogRecord();
         $this->designerLogRepo->write($record);
         return $this->render($response, $record->getDesigner()->getVersion());
@@ -61,11 +61,9 @@ class CallingHomeController
     
     public function engine(Request $request, Response $response)
     {
-        $this->request = $request;
-        
+        $this->request = $request->withParsedBody($_POST);
         $record = $this->createEngineLogRecord();
         $this->engineLogRepo->write($record);
-        
         return $this->render($response, $record->getEngine()->getVersion());
     }
     

@@ -2,6 +2,9 @@
 use axonivy\update\Application;
 use axonivy\update\repository\DesignerLogRepository;
 use axonivy\update\repository\EngineLogRepository;
+use Slim\Psr7\Factory\RequestFactory;
+use Slim\Psr7\Response;
+use Slim\App;
 
 require_once 'IntegrationTestCase.php';
 
@@ -9,19 +12,6 @@ final class CallingHomeControllerTest extends IntegrationTestCase
 {
     public function testAddDesignerLog(): void
     {
-        $configuration = [
-            'settings' => [
-                'displayErrorDetails' => true,
-                'db' => $this->dbConfig,
-                'developerAPI' => 'https://developer.axonivy.com/api'
-            ],
-            'environment' => \Slim\Http\Environment::mock([
-                'REQUEST_METHOD' => 'POST',
-                'REQUEST_URI' => '/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp',                
-                'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-            ])
-        ];
-        
         $_POST['DesignerVersion'] = '5.1.4';
         
         $_POST['JavaVendor'] = 'JVendor';
@@ -42,11 +32,10 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $_POST['OperatingSystemVersion'] = '56';
         $_POST['OperatingSystemAvailableProcessors'] = '92';
         
-        $response = (new Application())->runWithConfiguration($configuration);
+        $response = $this->fireRequest('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp');
         $this->assertResponse($response);
         
-        $pdo = Application::createContainer($configuration)->db;
-        $logRep = new DesignerLogRepository($pdo);
+        $logRep = new DesignerLogRepository($this->pdo());
         $logs = $logRep->find(0, 1);
         $log = $logs[0];
         
@@ -73,19 +62,6 @@ final class CallingHomeControllerTest extends IntegrationTestCase
     
     public function testAddEngineLog(): void
     {
-        $configuration = [
-            'settings' => [
-                'displayErrorDetails' => true,
-                'db' => $this->dbConfig,                
-                'developerAPI' => 'https://developer.axonivy.com/api'
-            ],
-            'environment' => \Slim\Http\Environment::mock([
-                'REQUEST_METHOD' => 'POST',
-                'REQUEST_URI' => '/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp',
-                'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-            ])
-        ];
-        
         $_POST['ServerVersion'] = '6.5';
         $_POST['ServerApplications'] = 10;
         $_POST['ServerClusterNodesConfigured'] = 20;
@@ -126,11 +102,10 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $_POST['SystemDatabaseProductName'] = 'sun microsystem';
         $_POST['SystemDatabaseProductVersion'] = '66666';
         
-        $response = (new Application())->runWithConfiguration($configuration);
+        $response = $this->fireRequest('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp');
         $this->assertResponse($response);
         
-        $pdo = Application::createContainer($configuration)->db;
-        $logRep = new EngineLogRepository($pdo);
+        $logRep = new EngineLogRepository($this->pdo());
         $logs = $logRep->find(0, 1);
         $log = $logs[0];
         
@@ -173,6 +148,31 @@ final class CallingHomeControllerTest extends IntegrationTestCase
         $this->assertEquals('jdbcmysql', $log->getSystemDatabase()->getDriver());
         $this->assertEquals('sun microsystem', $log->getSystemDatabase()->getProductName());
         $this->assertEquals('66666', $log->getSystemDatabase()->getProductVersion());
+    }
+    
+    private function fireRequest(String $url): Response
+    {
+        $request = (new RequestFactory())
+        ->createRequest('POST', $url)
+        ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+        return $this->app()->handle($request);
+    }
+    
+    private function pdo()
+    {
+        return $this->app()->getContainer()->get('db');
+    }
+    
+    private function app(): App
+    {
+        $configuration = [
+            'settings' => [
+                'displayErrorDetails' => true,
+                'db' => $this->dbConfig,
+                'developerAPI' => 'https://developer.axonivy.com/api'
+            ]
+        ];
+        return (new Application())->createApp($configuration);
     }
     
     private function assertResponse($response)
