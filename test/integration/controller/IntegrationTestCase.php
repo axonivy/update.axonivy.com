@@ -32,7 +32,7 @@ class IntegrationTestCase extends TestCase {
         
         $pdo = new PDO("mysql:host=$host;dbname=$dbName;charset=$charset", $user, $password);
         
-        $sql = file_get_contents('./docker/mysql/00_init.sql');
+        $sql = file_get_contents('./docker/mariadb/00_init.sql');
         $pdo->exec($sql);
         
         $this->pdo = $pdo;

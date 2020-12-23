@@ -5,7 +5,6 @@ use PDO;
 use Slim\App;
 use Slim\Container;
 use axonivy\update\controller\CallingHomeController;
-use axonivy\update\controller\LogController;
 use axonivy\update\repository\DesignerLogRepository;
 use axonivy\update\repository\EngineLogRepository;
 use axonivy\update\repository\ReleaseInfoRepository;
