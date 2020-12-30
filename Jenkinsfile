@@ -18,20 +18,18 @@ pipeline {
     stage('build') {
       steps {
         script {
-          docker.withRegistry('', 'docker.io') {
-            docker.build('db', '-f docker/mariadb/Dockerfile docker/mariadb').withRun() { dbContainer ->
-              docker.build('apache', '-f docker/apache/Dockerfile docker/apache').inside("--link ${dbContainer.id}:db") {
-                sh 'composer install --no-dev --no-progress'
-                sh "tar -cf ${env.DIST_FILE} src vendor"
-                archiveArtifacts env.DIST_FILE
-                stash name: 'website-tar', includes: env.DIST_FILE
+          docker.build('db', '-f docker/mariadb/Dockerfile docker/mariadb').withRun() { dbContainer ->
+            docker.build('apache', '-f docker/apache/Dockerfile docker/apache').inside("--link ${dbContainer.id}:db") {
+              sh 'composer install --no-dev --no-progress'
+              sh "tar -cf ${env.DIST_FILE} src vendor"
+              archiveArtifacts env.DIST_FILE
+              stash name: 'website-tar', includes: env.DIST_FILE
       
-                sh 'composer install --no-progress'
-                sh './vendor/bin/phpunit --log-junit phpunit-junit.xml || exit 0'
-                junit 'phpunit-junit.xml'
-              }
+              sh 'composer install --no-progress'
+              sh './vendor/bin/phpunit --log-junit phpunit-junit.xml || exit 0'
+              junit 'phpunit-junit.xml'
             }
-          }
+          }          
         }
       }
     }
