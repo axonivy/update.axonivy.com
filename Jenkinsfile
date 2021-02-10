@@ -40,7 +40,7 @@ pipeline {
       }
       agent {
         docker {
-          image 'axonivy/build-container:ssh-client-1.0'
+          image 'axonivy/build-container:ssh-client-1'
         }
       }
       steps {
