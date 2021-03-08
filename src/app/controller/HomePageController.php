@@ -9,7 +9,7 @@ class HomePageController
 
     public function __invoke(Request $request, Response $response)
     {
-        echo 'update.axonivy.com provides an API to get release information of the awesome <a href="https://developer.axonivy.com"><b>Axon.ivy Digital Business Platform</b></a>';
+        echo 'update.axonivy.com provides an API to get release information of the awesome <a href="https://developer.axonivy.com"><b>Axon Ivy Platform</b></a>';
         return $response;
     }
 }
