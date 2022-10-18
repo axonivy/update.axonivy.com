@@ -198,7 +198,7 @@ final class CallingHomeControllerTest extends IntegrationTestCase
     
     private function assertVersionNumber($version)
     {
-        $this->assertGreaterThanOrEqual(5, $version);
+        $this->assertEquals(-1, version_compare(5, $version));
         $parts = explode('.', $version);
         $this->assertTrue(is_numeric($parts[0]));
         $this->assertTrue(is_numeric($parts[1]));
