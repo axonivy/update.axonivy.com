@@ -3,6 +3,7 @@ namespace axonivy\update\model;
 
 class DesignerLogRecord
 {
+    private $id;
 
     private $timestamp;
     
