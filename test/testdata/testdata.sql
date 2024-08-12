@@ -1,3 +1,10 @@
+INSERT INTO ProductLog 
+( Id, `Timestamp`, Product, `Version`, `Usage` ) 
+VALUES 
+( 23, '2024-08-19 16:06:44', 'Designer', '10.0.19', '{"Java" : {"version": "21.0.3" }}'),
+( 24, '2024-08-20 11:42:44', 'Engine', '11.3.1', '{"Java" : {"version": "17.0.9" }}'),
+;
+
 INSERT INTO DesignerLog (
 		Id,
 		Timestamp,

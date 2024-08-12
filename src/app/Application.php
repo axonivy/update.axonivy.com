@@ -5,11 +5,16 @@ use PDO;
 use Slim\App;
 use DI\Container;
 use axonivy\update\controller\CallingHomeController;
+use axonivy\update\controller\CallingHomeControllerV2;
 use axonivy\update\repository\DesignerLogRepository;
 use axonivy\update\repository\EngineLogRepository;
 use axonivy\update\repository\ReleaseInfoRepository;
 use axonivy\update\controller\HomePageController;
+use axonivy\update\repository\ProductLogRepository;
 use Slim\Factory\AppFactory;
+
+use Slim\Psr7\Request as Psr7Request;
+use Slim\Psr7\Response as Psr7Response;
 
 class Application
 {
@@ -31,8 +36,9 @@ class Application
         
         $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp', CallingHomeController::class . ':designer');
         $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp', CallingHomeController::class . ':engine');
+        $app->post('/api/update/product', CallingHomeControllerV2::class . ':product');
         $app->get('/', HomePageController::class);
-        
+
         return $app;
     }
 
@@ -63,6 +69,13 @@ class Application
             $engineLogRepo = new EngineLogRepository($db);
             $releaseInfoRepo = new ReleaseInfoRepository($config['settings']['developerAPI']);
             return new CallingHomeController($designerLogRepo, $engineLogRepo, $releaseInfoRepo);
+        });
+    
+        $container->set(CallingHomeControllerV2::class, function (Container $container) use ($config) {
+            $db = $container->get('db');
+            $productLogRepo = new ProductLogRepository($db);
+            $releaseInfoRepo = new ReleaseInfoRepository($config['settings']['developerAPI']);
+            return new CallingHomeControllerV2($productLogRepo, $releaseInfoRepo);
         });
 
         return $container;

@@ -1,3 +1,16 @@
+CREATE TABLE ProductLog
+(
+   Id bigint PRIMARY KEY AUTO_INCREMENT NOT NULL,
+   `Timestamp` datetime NOT NULL,
+   `Version` varchar(50) NOT NULL,
+   Product varchar(10) NOT NULL,
+   `Usage` TEXT NOT NULL
+) 
+ENGINE=InnoDB 
+DEFAULT CHARSET=UTF8 
+COLLATE utf8_general_ci;
+
+
 CREATE TABLE EngineLog
 (
    Id bigint PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -75,6 +88,8 @@ CREATE TABLE DesignerLog
 
 ALTER TABLE EngineLog AUTO_INCREMENT=300000;
 ALTER TABLE DesignerLog AUTO_INCREMENT=300000;
+ALTER TABLE ProductLog AUTO_INCREMENT=300000;
 
 ALTER TABLE EngineLog ADD COLUMN HttpRequestIpAddress varchar(255) NULL;
 ALTER TABLE DesignerLog ADD COLUMN HttpRequestIpAddress varchar(255) NULL;
+ALTER TABLE ProductLog ADD COLUMN HttpRequestIpAddress varchar(255) NULL;
