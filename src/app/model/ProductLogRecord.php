@@ -3,14 +3,13 @@ namespace axonivy\update\model;
 
 class ProductLogRecord
 {
-    private $id;
-    private $timestamp;
-    private $ipAddress;
-    private $product;
-    private $version;
-    private $usage;
+    private int $timestamp;
+    private string $ipAddress;
+    private string $product;
+    private string $version;
+    private string $usage;
 
-    public function __construct($timestamp, string $ipAddress, string $product, string $version, string $usage)
+    public function __construct(int $timestamp, string $ipAddress, string $product, string $version, string $usage)
     {
         $this->timestamp = $timestamp;
         $this->ipAddress = $ipAddress;
@@ -18,38 +17,28 @@ class ProductLogRecord
         $this->version = $version;
         $this->usage = $usage;
     }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
     
-    public function getIpAddress()
+    public function getIpAddress(): string
     {
         return $this->ipAddress;
     }
 
-    public function getTimestamp()
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    public function getProduct()
+    public function getProduct(): string
     {
         return $this->product;
     }
 
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    public function getUsage()
+    public function getUsage(): string
     {
         return $this->usage;
     }

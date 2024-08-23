@@ -20,7 +20,7 @@ class CallingHomeControllerV2
         $this->releaseInfoRepo = $releaseInfoRepo;
     }
 
-    public function product(Request $request, Response $response)
+    public function product(Request $request, Response $response): Response
     {
         $payload = json_decode($request->getBody());
         $name = $payload->IvyProduct->name;
@@ -33,7 +33,7 @@ class CallingHomeControllerV2
         return $this->respond($response, $info);
     }
 
-    private function ipAddress()
+    private function ipAddress(): string
     {
         return $_SERVER['REMOTE_ADDR'] ?? ''; // or use a middleware to get the ip
     }
@@ -45,9 +45,9 @@ class CallingHomeControllerV2
         return $info;
     }
     
-    private function respond(Response $response, $releaseInfo)
+    private function respond(Response $response, $releaseInfo): Response
     {
-        $json= json_encode($releaseInfo);
+        $json = json_encode($releaseInfo);
         $response->getBody()->write($json);
         $response->withAddedHeader('Expires', 0);
         return $response;

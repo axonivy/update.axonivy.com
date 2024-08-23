@@ -13,7 +13,8 @@ class ProductLogRepository
         $this->pdo = $pdo;
     }
 	
-	public function write(ProductLogRecord $record) {
+	public function write(ProductLogRecord $record): void
+	{
 		$stmt = $this->pdo->prepare('INSERT INTO ProductLog (
 			`Timestamp`,
             HttpRequestIpAddress,

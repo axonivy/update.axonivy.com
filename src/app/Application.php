@@ -13,8 +13,6 @@ use axonivy\update\controller\HomePageController;
 use axonivy\update\repository\ProductLogRepository;
 use Slim\Factory\AppFactory;
 
-use Slim\Psr7\Request as Psr7Request;
-use Slim\Psr7\Response as Psr7Response;
 
 class Application
 {
