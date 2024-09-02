@@ -12,6 +12,8 @@ use axonivy\update\repository\ReleaseInfoRepository;
 use axonivy\update\controller\HomePageController;
 use axonivy\update\repository\ProductLogRepository;
 use Slim\Factory\AppFactory;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 
 
 class Application
@@ -23,7 +25,7 @@ class Application
         {
             $config = '../config/config.php'; 
         }
-        $app = $this->createApp(require($config));        
+        $app = $this->createApp(require($config));
         return $app->run();
     }
 
@@ -31,7 +33,8 @@ class Application
     {
         $container = self::createContainer($config);
         $app = AppFactory::createFromContainer($container);
-        
+        $this->setupLogging($app);
+
         $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/designer.ivp', CallingHomeController::class . ':designer');
         $app->post('/ivy/pro/UpdateService/UpdateService/141746D7E212F6D2/server.ivp', CallingHomeController::class . ':engine');
         $app->post('/api/update/product', CallingHomeControllerV2::class . ':product');
@@ -77,5 +80,13 @@ class Application
         });
 
         return $container;
+    }
+
+    public function setupLogging(App $app)
+    {
+        $app->addRoutingMiddleware();
+        $logger = new Logger('error');
+        $logger->pushHandler(new RotatingFileHandler('../../logs/slim-error.log', 30));
+        $app->addErrorMiddleware(false, true, true, $logger);
     }
 }
