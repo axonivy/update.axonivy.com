@@ -1,0 +1,2 @@
+# parent dir needs chmod=777
+*.log
