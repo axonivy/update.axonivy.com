@@ -19,6 +19,7 @@ pipeline {
       steps {
         script {
           docker.build('db', '-f docker/mariadb/Dockerfile docker/mariadb').withRun() { dbContainer ->
+            waitUntilDbIsReady(dbContainer.id)
             docker.build('apache', '-f docker/apache/Dockerfile docker/apache').inside("--link ${dbContainer.id}:db") {
               sh 'composer install --no-dev --no-progress'
               sh "tar -cf ${env.DIST_FILE} src vendor"
@@ -73,6 +74,21 @@ pipeline {
           }
         }
       }
+    }
+  }
+}
+
+def waitUntilDbIsReady(def containerId) {
+  timeout(5) {
+    waitUntil {
+       script {
+         try {
+          sh "docker exec ${containerId} mysqladmin -u update -p1234 ping --host=localhost --port=3306 --silent"
+          return true
+         } catch (Exception e) {
+          return false
+         }
+       }
     }
   }
 }
