@@ -2,6 +2,7 @@ FROM mariadb:10
 
 ADD 00_init.sql /docker-entrypoint-initdb.d/
 
+# Only used for testing
 ENV MARIADB_ROOT_PASSWORD=1234
 ENV MARIADB_DATABASE=update_stats
 ENV MARIADB_USER=update
