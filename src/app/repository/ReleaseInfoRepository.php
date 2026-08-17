@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace axonivy\update\repository;
 
 class ReleaseInfoRepository

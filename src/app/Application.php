@@ -23,7 +23,7 @@ class Application
         $config = __DIR__ . '/../../../../config/update.axonivy.com.php';
         if (!file_exists($config))
         {
-            $config = '../config/config.php'; 
+            $config = '../config/config.php';
         }
         $app = $this->createApp(require($config));
         return $app->run();

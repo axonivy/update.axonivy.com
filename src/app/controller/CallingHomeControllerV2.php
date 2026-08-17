@@ -38,7 +38,7 @@ class CallingHomeControllerV2
         return $_SERVER['REMOTE_ADDR'] ?? ''; // or use a middleware to get the ip
     }
 
-    private function releaseInfo($version) 
+    private function releaseInfo($version)
     {
         $info = $this->releaseInfoRepo->getCurrentReleaseInfo($version);
         $info->url='https://developer.axonivy.com/download/';

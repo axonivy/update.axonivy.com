@@ -8,7 +8,7 @@ return [
             'user' => 'update',
             'password' => '1234',
             'charset' => 'utf8'
-        ],        
+        ],
         'developerAPI' => 'https://developer.axonivy.com/api'
     ]
 ];
