@@ -83,9 +83,9 @@ class EngineLogRecord
     }
 
     public function getEngine() {
-		return $this->engine;
-	}
-	public function getSystemDatabase() {
-		return $this->systemDatabase;
-	}
+        return $this->engine;
+    }
+    public function getSystemDatabase() {
+        return $this->systemDatabase;
+    }
 }
