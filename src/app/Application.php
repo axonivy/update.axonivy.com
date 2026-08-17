@@ -25,7 +25,7 @@ class Application
         {
             $config = '../config/config.php';
         }
-        $app = $this->createApp(require($config));
+        $app = $this->createApp(require_once $config);
         return $app->run();
     }
 
@@ -46,7 +46,7 @@ class Application
     private static function createContainer($config): Container
     {
         $container = new Container();
-        $container->set('db', function (Container $container) use ($config) {
+        $container->set('db', function () use ($config) {
             $db = $config['settings']['db'];
             
             $host = $db['host'];
