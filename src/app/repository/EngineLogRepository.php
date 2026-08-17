@@ -64,11 +64,11 @@ class EngineLogRepository {
 				$record['EngineApplications'],
 				$record['EngineClusterNodesConfigured'],
 				$record['EngineClusterNodesRunning'],
-				$record['EngineLicensedUsers'],				
+				$record['EngineLicensedUsers'],
 				$record['EngineProcessModelVersions'],
 				$record['EngineProcessModelVersionsDeleted'],
 				$record['EngineProcessModels'],
-				$record['EngineRunningCases'],				
+				$record['EngineRunningCases'],
 				$record['EngineRunningTasks'],
 				$record['EngineUpTime'],
 				$record['EngineUsers'],
@@ -93,7 +93,7 @@ class EngineLogRepository {
 				$systemDatabase
 			);
 			$log->setId($record['Id']);
-			$logs[] = $log;			
+			$logs[] = $log;
 		}
 		return $logs;
 	}
@@ -232,5 +232,4 @@ class EngineLogRepository {
 		
 		$stmt->execute();
 	}
-	
 }

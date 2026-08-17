@@ -8,7 +8,7 @@ class HttpRequest
     public function __construct($ipAddress)
     {
         if (empty($ipAddress)) {
-            $ipAddress = '';    
+            $ipAddress = '';
         }
         $this->ipAddress = $ipAddress;
     }
