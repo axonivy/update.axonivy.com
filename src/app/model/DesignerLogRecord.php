@@ -68,8 +68,8 @@ class DesignerLogRecord
     public function getNetwork()
     {
         return $this->network;
-	}
-	public function getOperatingSystem() {
-		return $this->operatingSystem;
-	}
+    }
+    public function getOperatingSystem() {
+        return $this->operatingSystem;
+    }
 }
